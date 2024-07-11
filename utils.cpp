@@ -1,8 +1,3 @@
-#include<iostream>
-#include<string.h>
-#include "custom_suffix_tree.h"
-
-#include "generic_vector.h"
 #include "utils.h"
 
 using namespace std;

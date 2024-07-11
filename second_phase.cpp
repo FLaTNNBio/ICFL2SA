@@ -89,8 +89,38 @@ void add_chain_to_root(suffix_tree_node* root,int_vector* common_chain_of_suffie
 }
 
 
+void quicksort_of_nodes_2(nodes_vector* x, int start, int end){
+    int i, j, pivot;
+    suffix_tree_node* temp;
+    if(start<end){
+
+        pivot=start;
+        
+        i=start;
+        j=end;     
+
+        while(i<j){
+            while(strcmp(x->data[i]->suffix,x->data[pivot]->suffix)<=0 && i<end) i++;
+            while(strcmp(x->data[j]->suffix,x->data[pivot]->suffix)>0) j--;
+
+            if(i<j){   
+               temp=x->data[i];
+               x->data[i]=x->data[j];
+               x->data[j]=temp;
+            }
+        }
+
+        temp=x->data[pivot];
+        x->data[pivot]=x->data[j];
+        x->data[j]=temp;
+        quicksort_of_nodes_2(x,start,j-1);
+        quicksort_of_nodes_2(x,j+1,end);
+    }
+}
+
+
 void sort_sons_of_all_nodes(suffix_tree_node* root){
-    quicksort_of_nodes(root->sons,0,root->sons->used-1);
+    quicksort_of_nodes_2(root->sons,0,root->sons->used-1);
 
     for(int i=0;i<root->sons->used;i++){
         sort_sons_of_all_nodes(root->sons->data[i]);

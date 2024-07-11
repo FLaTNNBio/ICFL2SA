@@ -4,7 +4,6 @@
 #include <string.h>
 #include <vector>
 #include "second_phase.h"
-#include "utils.h"
 
 using namespace std;
 

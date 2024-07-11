@@ -2,6 +2,8 @@
 #include "utils.h"
 #include <string.h>
 #include <thread>
+#include "second_phase.h"
+#include "custom_factors.h"
 
 char** get_lyndon_words(string* word,vector<int> icfl_list);
 int get_max_size(vector<int> icfl_list,int lenght_of_word);
@@ -22,3 +24,5 @@ void add_node_in_suffix_tree(const char* S,vector<int> icfl_list,int icfl_size,s
 void add_node_in_suffix_tree_multithreding(const char* S,vector<int> icfl_list,int icfl_size,suffix_tree_node* root,int i,int j);
 void add_node_in_suffix_tree_alberello(const char* S,vector<int> icfl_list,int icfl_size,alberello* alb,int i,int j);
 void add_node_in_suffix_tree_alberello_2(const char* S,vector<int> icfl_list,int icfl_size,suffix_tree_node* root,int i,int j);
+
+vector<int> get_is_custom_vec(vector<int>icfl ,int lenght_of_word);

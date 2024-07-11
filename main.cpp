@@ -11,6 +11,7 @@
 #include "check.h"
 #include <string.h>
 
+
 #define CONTROLLO_OUTPUT 1
 
 using namespace std;
@@ -28,26 +29,34 @@ vector<int> sorting_suffixes_via_icfl_trie(string* word,int lenght_of_word) {
 
     printVector(icfl_list, "Stampa ICFL");
     
+    vector<int> custom_icfl_list = get_custom_factor(icfl_list,lenght_of_word);
+
+    printVector(custom_icfl_list, "Stampa custom ICFL");
 
     cout<<endl;
     
     int max_size=get_max_size(icfl_list,lenght_of_word);
+    int custom_max_size=get_max_size(custom_icfl_list,lenght_of_word);
 
-    //cout<<"Max size: "<<max_size<<endl;
+    cout<<"Max size: "<<max_size<<endl;
+    cout<<"Custom Max size: "<<custom_max_size<<endl;
 
     clock_t tStart = clock();
     //cout<<"\nCREAZIONE ALBERO\n";
     //La root è la stringa vuota
     //suffix_tree_node* root = creazione_albero(list_of_lyndon_words,icfl_list,word->c_str(),lenght_of_word,max_size);
+
     //suffix_tree_node* root = creazione_albero_3(icfl_list,word->c_str(),lenght_of_word,max_size);
+    suffix_tree_node* root = creazione_albero_3(custom_icfl_list,word->c_str(),lenght_of_word,custom_max_size);
+
     //suffix_tree_node* root = creazione_albero_3_multithread(icfl_list,word->c_str(),lenght_of_word,max_size);
-    suffix_tree_node* root = creazione_albero_alberelli(icfl_list,word->c_str(),lenght_of_word,max_size);
+    //suffix_tree_node* root = creazione_albero_alberelli(icfl_list,word->c_str(),lenght_of_word,max_size);
 
 
     printf("Creazione albero, Time taken: %.2fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
 
-    //cout<<"\nALBERO OTTENUTO\n";
-    //stampa_suffix_tree(root);
+    cout<<"\nALBERO OTTENUTO\n";
+    stampa_suffix_tree(root);
     
     if (!CONTROLLO_OUTPUT) word->clear();
     cout<<endl;

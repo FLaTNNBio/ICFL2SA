@@ -1,5 +1,5 @@
 #include "first_phase.h"
-#include "second_phase.h"
+
 
 
 char** get_lyndon_words(string* word,vector<int> icfl_list){
@@ -193,6 +193,9 @@ suffix_tree_node* creazione_albero_3_multithread(vector<int> icfl_list,const cha
 suffix_tree_node* creazione_albero_3(vector<int> icfl_list,const char* S,int lenght_of_word,int max_size){
     suffix_tree_node* root = build_suffix_tree_node(NULL,"\0",0);
     int icfl_Size=icfl_list.size();
+
+    vector<int> is_custom_vec = get_is_custom_vec(icfl_list,lenght_of_word);
+
     for(int i=0;i<max_size;i++){
         //stampa_suffix_tree(root);
         //cout<<"\n\n";
@@ -205,16 +208,20 @@ suffix_tree_node* creazione_albero_3(vector<int> icfl_list,const char* S,int len
             //La stringa si legge da destra verso sinistra
             //int starting_position= strlen(lyndon_word)-1-i;
             int starting_position= lenght_of_word - icfl_list[icfl_Size-1]-1-i;
-            temp = add_suffix_in_tree_4(root,S + icfl_list[icfl_Size-1] + starting_position,icfl_list[icfl_Size-1]+starting_position,i+1);
+            //temp = add_suffix_in_tree_4(root,S + icfl_list[icfl_Size-1] + starting_position,icfl_list[icfl_Size-1]+starting_position,i+1);
+            temp = add_suffix_in_tree_6(root,S,icfl_list,is_custom_vec,S + icfl_list[icfl_Size-1] + starting_position,icfl_list[icfl_Size-1]+starting_position,i+1);
             if(temp){
                 add_in_nodes_vector(last_added_nodes,temp);
             }
         }
         for(int j=0;j<icfl_Size-1;j++){
+            cout<<"Controllo: "<<icfl_list[j]+icfl_list[j+1]-icfl_list[j]-1-i<<"\n";
             if(i<icfl_list[j+1]-icfl_list[j]){
                 //La stringa si legge da destra verso sinistra
                 int starting_position= icfl_list[j+1]-icfl_list[j]-1-i;
-                temp = add_suffix_in_tree_4(root,S + icfl_list[j] +starting_position,icfl_list[j]+starting_position,i+1);
+                cout<<"Inserisco: "<<icfl_list[j]+starting_position<<"\n";
+                //temp = add_suffix_in_tree_4(root,S + icfl_list[j] +starting_position,icfl_list[j]+starting_position,i+1);
+                temp = add_suffix_in_tree_6(root,S,icfl_list,is_custom_vec,S + icfl_list[j] + starting_position,icfl_list[j]+starting_position,i+1);
                 if(temp){
                     add_in_nodes_vector(last_added_nodes,temp);
                 }
@@ -229,13 +236,13 @@ suffix_tree_node* creazione_albero_3(vector<int> icfl_list,const char* S,int len
             //cout<<"Da inserire nodo: ";
             //print_substring(last_added_nodes->data[i]->suffix,last_added_nodes->data[i]->suffix_len);
             //cout<<"\n";
-            create_bit_vector_4(S,icfl_list,icfl_Size,last_added_nodes->data[i]);
-            cout<<"Nodo ";
-            print_substring(last_added_nodes->data[i]->suffix,last_added_nodes->data[i]->suffix_len);
-            cout<<"\nidici: ";
-            print_int_vector(last_added_nodes->data[i]->array_of_indexes);
-            cout<<"distance_from_father: ";
-            print_int_vector(last_added_nodes->data[i]->common_elements_vec->distance_from_father);
+            create_bit_vector_3_redundancy(S,icfl_list,icfl_Size,last_added_nodes->data[i]);
+            //cout<<"Nodo ";
+            //print_substring(last_added_nodes->data[i]->suffix,last_added_nodes->data[i]->suffix_len);
+            //cout<<"\nidici: ";
+            //print_int_vector(last_added_nodes->data[i]->array_of_indexes);
+            //cout<<"common: ";
+            //print_int_vector(last_added_nodes->data[i]->common_chain_of_suffiexes);
     //print_int_vector(res);
             //cout<<"Inserito.\n";
             //cout<<last_added_nodes->data[i]->suffix<<endl;
@@ -370,4 +377,12 @@ void add_node_in_suffix_tree_alberello_2(const char* S,vector<int> icfl_list,int
     //cout<<"aggiunto in alberello\n";
 }
 
-
+vector<int> get_is_custom_vec(vector<int>icfl ,int lenght_of_word){
+    vector<int> is_custom_vec;
+    is_custom_vec.reserve(lenght_of_word);
+    // 0 = fattore ICFL
+    // 1 = fattore custom
+    for(int i=0;i<lenght_of_word;++i)
+        is_custom_vec.push_back(check_if_custom_index(icfl,lenght_of_word,i));
+    return is_custom_vec;
+}

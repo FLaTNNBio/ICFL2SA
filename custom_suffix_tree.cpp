@@ -223,7 +223,7 @@ suffix_tree_node* add_suffix_in_tree_3(suffix_tree_node* root,const char* suffix
     
     return add_suffix_in_tree_3(root->sons->data[index],suffix,indice,suffix_len);
 }
-
+//differenza con add_suffix_in_tree_4: ritorna il nodo inserito.
 suffix_tree_node* add_suffix_in_tree_4(suffix_tree_node* root,const char* suffix,int indice,int suffix_len){
 
     if(root->suffix_len==suffix_len){
@@ -257,6 +257,7 @@ suffix_tree_node* add_suffix_in_tree_4(suffix_tree_node* root,const char* suffix
 
     if(nuovo_nodo){
         suffix_tree_node* x=build_suffix_tree_node(root,suffix,suffix_len);
+
         add_in_int_vector(x->array_of_indexes,indice);
 
         //root->sons = add_in_order(root->sons,x);
@@ -278,6 +279,7 @@ suffix_tree_node* add_suffix_in_tree_4(suffix_tree_node* root,const char* suffix
     
     return add_suffix_in_tree_4(root->sons->data[index],suffix,indice,suffix_len);
 }
+
 
 void add_suffix_in_tree_4_multithreading(suffix_tree_node* root,const char* suffix,int indice,int suffix_len){
     
@@ -372,6 +374,71 @@ void add_suffix_in_tree_4_multithreading(suffix_tree_node* root,const char* suff
     }
     
     add_suffix_in_tree_5(root->sons->data[index],suffix,indice,suffix_len,res);
+}
+
+suffix_tree_node* add_suffix_in_tree_6(suffix_tree_node* root,const char* S,vector<int> icfl_list,std::vector<int> is_custom_suffix,const char* suffix,int indice,int suffix_len){
+
+    //da modificare rispetto all'originale
+    if(root->suffix_len==suffix_len){
+        //cout<<"prima:\n";
+        //print_int_vector(root->array_of_indexes);
+        in_prefix_merge_bit_vector_8(S,icfl_list,icfl_list.size(),root->array_of_indexes,indice,is_custom_suffix,root->suffix_len);
+        //cout<<"\ndopo:\n";
+        //print_int_vector(root->array_of_indexes);
+        cout<<indice<<"\n";
+        //add_in_int_vector(root->array_of_indexes,indice);
+        return NULL;
+    }
+    
+    //cout<<"Cercando...";
+    //int index_of_child_with_the_same_suffix = binarySearch_2(root,suffix,0,root->sons->used-1);
+    bool nuovo_nodo=false;
+    int index=-1;
+
+    if(root->sons->used == 0) nuovo_nodo=true;
+    else{
+        index = binarySearch_3_with_redundancy(root,suffix,suffix_len,0,root->sons->used-1);
+        if(strncmp(root->sons->data[index]->suffix,suffix,root->sons->data[index]->suffix_len)){
+        //    cout<<"Non trovato suffisso simile a ";
+        //    print_substring(suffix,suffix_len);
+        //    cout<<" at index: "<<index<<"\n";
+            nuovo_nodo=true;
+            //cout<<"LCP: "<<LCP_with_given_strings_2(suffix,root->sons->data[index]->suffix,suffix_len)<<", suffix_len: "<<root->sons->data[index]->suffix_len<<"\n";
+
+        }
+        //else{
+        //    cout<<"Trovato suffisso simile a ";
+        //    print_substring(suffix,suffix_len);
+        //    cout<<" at index: "<<index<<"\n";
+        //}
+    }
+    //cout<<" trovato a "<<index_of_child_with_the_same_suffix<<"\n";
+
+    if(nuovo_nodo){
+        suffix_tree_node* x=build_suffix_tree_node(root,suffix,suffix_len);
+
+        cout<<"Nuovo nodo: "<<indice<<"\n";
+        add_in_int_vector(x->array_of_indexes,indice);
+        cout<<"a\n";
+        //root->sons = add_in_order(root->sons,x);
+
+        if(index==-1) {cout<<"b\n";add_in_nodes_vector(root->sons,x);cout<<"b\n";}
+        else if (strcmp(root->sons->data[root->sons->used-1]->suffix,suffix)<0) {cout<<"c\n";add_in_nodes_vector(root->sons,x);cout<<"c\n";}
+        else {cout<<"d\n";add_in_order_3(root->sons,x,index);cout<<"d\n";}
+        x->father=root;
+
+        //cout<<"LCP: "<<LCP_with_given_strings_2(suffix,root->sons->data[index]->suffix,suffix_len)<<", suffix_len: "<<root->sons->data[index]->suffix_len<<"\n";
+        //for(int z=0;z<root->sons->used;z++){
+        //    print_substring(root->sons->data[z]->suffix,root->sons->data[z]->suffix_len);
+        //    cout<<", ";
+        //}
+        //cout<<"\n";
+        cout<<"a\n";
+
+        return x;
+    }
+    
+    return add_suffix_in_tree_6(root->sons->data[index],S,icfl_list,is_custom_suffix,suffix,indice,suffix_len);
 }
 
 
@@ -750,6 +817,12 @@ void add_in_order_4(nodes_vector* sons,suffix_tree_node* node,int starting_posit
     add_in_nodes_vector(sons,NULL);
     memmove(sons->data+starting_position+1,sons->data+starting_position,sizeof(nodes_vector*)*(sons->used-1-starting_position));
     sons->data[starting_position]=node;
+}
+
+void add_in_order_int_vector(int_vector* vec,int x,int starting_position){
+    add_in_int_vector(vec,0);
+    memmove(vec->data+starting_position+1,vec->data+starting_position,sizeof(int*)*(vec->used-1-starting_position));
+    vec->data[starting_position]=x;
 }
 
 void print_nodes_vector(nodes_vector* n_vec){

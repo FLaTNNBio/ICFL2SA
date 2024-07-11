@@ -2,6 +2,7 @@
 #include "custom_suffix_tree.h"
 #include <string.h>
 #include <vector>
+#include "utils.h"
 
 using namespace std;
 

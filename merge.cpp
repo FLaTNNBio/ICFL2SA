@@ -607,3 +607,66 @@ bit_vector* in_prefix_merge_bit_vector_5(const char* S, vector<int> icfl_list, i
 
     return result;
 }
+
+void in_prefix_merge_bit_vector_8(const char* S, vector<int> icfl_list, int icfl_list_size,int_vector*  father, int child,vector<int> is_custom_suffix,int father_lenght){
+
+    int i=0,j=0,temp_res;
+    bool flag=true;
+
+    cout<<"Inserisco in inprefix: "<<child<<"\n";
+
+    //cout<<" last:"<<icfl_list[icfl_list.size()-1]<<" ";
+
+    while( i<father->used && flag){
+        if(is_custom_suffix[father->data[i]] && is_custom_suffix[child]){
+            //cout<<i<<" "<<j<<"\n";
+            temp_res = strcmp(S+child+father_lenght,S+father->data[i]+father_lenght);
+            if(temp_res<0) flag=false;
+            else i++;
+        }
+        //A questo punto solo uno o nessuno dei due è arificiale
+        //Se il primo è artificiale allora si inverte la regola
+        else if (is_custom_suffix[father->data[i]]){
+            if(father->data[i] >= icfl_list[icfl_list_size-1] && child >= icfl_list[icfl_list_size-1]) flag=false;
+            else if(get_factor(icfl_list,father->data[i])==get_factor(icfl_list,child)) i++;
+            else{
+                if(father->data[i] >= icfl_list[icfl_list_size-1]) flag=false;
+                else if(child >= icfl_list[icfl_list_size-1]){
+                    if(strcmp(S+child+father_lenght,S+father->data[i]+father_lenght)<0) i++;
+                    else flag=false;
+                }
+                else{
+                    if(father->data[i] > child) i++;
+                    else{
+                        //Questo uguale all'originale, c'è la strcmp 
+                        if(strcmp(S+child+father_lenght,S+father->data[i]+father_lenght)<0) flag=false;
+                        else i++;
+                    }
+
+                }
+            }
+        }
+        //Se nessuno dei due è custom:
+        else if(father->data[i] >= icfl_list[icfl_list_size-1] && child >= icfl_list[icfl_list_size-1]) i++;
+        else if(get_factor(icfl_list,father->data[i])==get_factor(icfl_list,child)) flag=false;
+        else{
+            if(father->data[i] >= icfl_list[icfl_list_size-1]) i++;
+            else if(child >= icfl_list[icfl_list_size-1]){
+                if(strcmp(S+child+father_lenght,S+father->data[i]+father_lenght)<0) flag=false;
+                else i++;
+            }
+            else{
+                if(father->data[i] > child) flag=false;
+                else{
+                    if(strcmp(S+child+father_lenght,S+father->data[i]+father_lenght)<0) flag=false;
+                    else i++;
+                }
+
+            }
+        }
+
+    }
+
+    if(!flag) add_in_order_int_vector(father,child,i);
+    else add_in_int_vector(father,child);
+}

@@ -8,6 +8,7 @@
 #include <mutex>
 #include <pthread.h>
 #include <thread>
+#include "merge.h"
 //#include <jthread>
 
 #define MAX_THREADS 4
@@ -61,9 +62,11 @@ suffix_tree_node* add_suffix_in_tree(suffix_tree_node* root,const char* suffix,i
 suffix_tree_node* add_suffix_in_tree_2(suffix_tree_node* root,const char* suffix,int indice,int suffix_len);
 suffix_tree_node* add_suffix_in_tree_3(suffix_tree_node* root,const char* suffix,int indice,int suffix_len);
 suffix_tree_node* add_suffix_in_tree_4(suffix_tree_node* root,const char* suffix,int indice,int suffix_len);
+void add_in_order_int_vector(int_vector* vec,int x,int starting_position);
 void add_suffix_in_tree_4_multithreading(suffix_tree_node* root,const char* suffix,int indice,int suffix_len);
 //Non fa i return(cosa bella)
 void add_suffix_in_tree_5(suffix_tree_node* root,const char* suffix,int indice,int suffix_len,suffix_tree_node** res);
+suffix_tree_node* add_suffix_in_tree_6(suffix_tree_node* root,const char* S,vector<int> icfl_list,std::vector<int> is_custom_suffix,const char* suffix,int indice,int suffix_len);
 int16_t find_index_of_child_a_is_prefix_of_b(suffix_tree_node* node, const char* suffix);
 void stampa_suffix_tree(suffix_tree_node* root);
 
@@ -84,7 +87,6 @@ int LCP_with_given_strings_2(const char* x,const char* y,int max_len);
 int LCP_from_same_string(const char* piccola,const char* grande,int n);
 
 //utils replicate
-void quicksort_of_nodes_local(nodes_vector* x, int start, int end);
 int binarySearch(suffix_tree_node* root, const char* x, int low, int high);
 int binarySearch_with_redundancy(suffix_tree_node* root, const char* x, int suffix_len,int low, int high);
 int binarySearch_2(suffix_tree_node* root, const char* x, int low, int high);
