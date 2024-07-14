@@ -608,12 +608,61 @@ bit_vector* in_prefix_merge_bit_vector_5(const char* S, vector<int> icfl_list, i
     return result;
 }
 
+
+bit_vector* in_prefix_merge_bit_vector_6(const char* S, vector<int> icfl_list,vector<int> is_custom_suffix, int icfl_list_size, int_vector* father, int_vector* child){
+    bit_vector* result = init_bit_vector(father->used+child->used);
+    int temp_res;
+
+    int i=0,j=0;
+
+    //cout<<" last:"<<icfl_list[icfl_list.size()-1]<<" ";
+
+    //cout<<"Comparing:\n";
+    //printVec(father);
+    //cout<<"\n";
+    //printVec(child);
+    //cout<<"\n";
+
+    while( i<father->used && j<child->used){
+
+        if(is_custom_suffix[father->data[i]] || is_custom_suffix[child->data[j]] ){
+            //cout<<i<<" "<<j<<"\n";
+            temp_res = strcmp(S+child->data[j],S+father->data[i]);
+            if(temp_res<0){add_in_bit_vector(result,false);j++;}
+            else{add_in_bit_vector(result,true);i++;}
+        }
+
+        else if(father->data[i] >= icfl_list[icfl_list_size-1] && child->data[j] >= icfl_list[icfl_list_size-1]){add_in_bit_vector(result,true);i++;}
+        else if(get_factor(icfl_list,father->data[i])==get_factor(icfl_list,child->data[j])){add_in_bit_vector(result,false);j++;}
+        else{
+            if(father->data[i] >= icfl_list[icfl_list_size-1]){add_in_bit_vector(result,true);i++;}
+            else if(child->data[j] >= icfl_list[icfl_list_size-1]){
+                if(strcmp(S+child->data[j],S+father->data[i])<0){add_in_bit_vector(result,false);j++;}
+                else{add_in_bit_vector(result,true);i++;}
+            }
+            else{
+                if(father->data[i] > child->data[j]){add_in_bit_vector(result,false);j++;}
+                else{
+                    if(strcmp(S+child->data[j],S+father->data[i])<0){add_in_bit_vector(result,false);j++;}
+                    else{add_in_bit_vector(result,true);i++;}
+                }
+            }
+        }
+
+    }
+
+    while(j<child->used){add_in_bit_vector(result,false);j++;}
+    while(i<father->used){add_in_bit_vector(result,true);i++;}
+
+    return result;
+}
+
 void in_prefix_merge_bit_vector_8(const char* S, vector<int> icfl_list, int icfl_list_size,int_vector*  father, int child,vector<int> is_custom_suffix,int father_lenght){
 
     int i=0,j=0,temp_res;
     bool flag=true;
 
-    cout<<"Inserisco in inprefix: "<<child<<"\n";
+    //cout<<"Inserisco in inprefix: "<<child<<"\n";
 
     //cout<<" last:"<<icfl_list[icfl_list.size()-1]<<" ";
 
@@ -667,6 +716,6 @@ void in_prefix_merge_bit_vector_8(const char* S, vector<int> icfl_list, int icfl
 
     }
 
-    if(!flag) add_in_order_int_vector(father,child,i);
+    if(!flag) add_in_order_int_vector_2(father,child,i);
     else add_in_int_vector(father,child);
 }

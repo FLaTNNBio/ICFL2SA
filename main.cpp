@@ -31,7 +31,7 @@ vector<int> sorting_suffixes_via_icfl_trie(string* word,int lenght_of_word) {
     
     vector<int> custom_icfl_list = get_custom_factor(icfl_list,lenght_of_word);
 
-    printVector(custom_icfl_list, "Stampa custom ICFL");
+    //printVector(custom_icfl_list, "Stampa custom ICFL");
 
     cout<<endl;
     
@@ -47,7 +47,9 @@ vector<int> sorting_suffixes_via_icfl_trie(string* word,int lenght_of_word) {
     //suffix_tree_node* root = creazione_albero(list_of_lyndon_words,icfl_list,word->c_str(),lenght_of_word,max_size);
 
     //suffix_tree_node* root = creazione_albero_3(icfl_list,word->c_str(),lenght_of_word,max_size);
-    suffix_tree_node* root = creazione_albero_3(custom_icfl_list,word->c_str(),lenght_of_word,custom_max_size);
+    //suffix_tree_node* root = creazione_albero_3(custom_icfl_list,word->c_str(),lenght_of_word,custom_max_size);
+
+    suffix_tree_node* root = creazione_albero_4(icfl_list,custom_icfl_list,word->c_str(),lenght_of_word,custom_max_size);
 
     //suffix_tree_node* root = creazione_albero_3_multithread(icfl_list,word->c_str(),lenght_of_word,max_size);
     //suffix_tree_node* root = creazione_albero_alberelli(icfl_list,word->c_str(),lenght_of_word,max_size);
@@ -55,8 +57,8 @@ vector<int> sorting_suffixes_via_icfl_trie(string* word,int lenght_of_word) {
 
     printf("Creazione albero, Time taken: %.2fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
 
-    cout<<"\nALBERO OTTENUTO\n";
-    stampa_suffix_tree(root);
+    //cout<<"\nALBERO OTTENUTO\n";
+    //stampa_suffix_tree(root);
     
     if (!CONTROLLO_OUTPUT) word->clear();
     cout<<endl;

@@ -12,6 +12,7 @@ suffix_tree_node* creazione_albero_2(vector<int> icfl_list,const char* S,int len
 suffix_tree_node* creazione_albero_2_multithread(vector<int> icfl_list,const char* S,int lenght_of_word,int max_size);
 suffix_tree_node* creazione_albero_3_multithread(vector<int> icfl_list,const char* S,int lenght_of_word,int max_size);
 suffix_tree_node* creazione_albero_3(vector<int> icfl_list,const char* S,int lenght_of_word,int max_size);
+suffix_tree_node* creazione_albero_4(vector<int> icfl_list,vector<int> custom_icfl_list,const char* S,int lenght_of_word,int max_size);
 
 suffix_tree_node* creazione_albero_alberelli(vector<int> icfl_list,const char* S,int lenght_of_word,int max_size);
 

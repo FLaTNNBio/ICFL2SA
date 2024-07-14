@@ -218,6 +218,16 @@ void create_bit_vector_3_redundancy(const char* S,vector<int> icfl_list,int icfl
     //printf("get_chain_from_bit_vector_3 Time taken: %.2fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
 }
 
+void create_bit_vector_4_redundancy(const char* S,vector<int> icfl_list,vector<int> is_custom_suffix,int icfl_list_size, suffix_tree_node* root){
+    //clock_t tot_inprefixmerge=0,tot_getchainfrombitvector=0,tStart;
+    //tStart = clock();
+    root->bit_vec=in_prefix_merge_bit_vector_6(S,icfl_list,is_custom_suffix,icfl_list_size,get_chain_from_bit_vector_3(root->father),root->array_of_indexes);
+    //printf("in_prefix_merge_bit_vector_3 Time taken: %.2fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
+    //tStart = clock();
+    root->common_chain_of_suffiexes = get_chain_from_bit_vector_3(root);
+    //printf("get_chain_from_bit_vector_3 Time taken: %.2fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
+}
+
 //Utilizza i common elements
 void create_bit_vector_4(const char* S,vector<int> icfl_list,int icfl_list_size, suffix_tree_node* root){
 

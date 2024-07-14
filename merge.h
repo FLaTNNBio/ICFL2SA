@@ -10,4 +10,5 @@ bit_vector* in_prefix_merge_bit_vector_2(const char* S, vector<int> icfl_list, i
 bit_vector* in_prefix_merge_bit_vector_3(const char* S, vector<int> icfl_list, int icfl_list_size, int_vector* father, int_vector* child);
 common_elements_vector* in_prefix_merge_bit_vector_4(const char* S, vector<int> icfl_list,int icfl_list_size, int_vector* father, int_vector* child);
 bit_vector* in_prefix_merge_bit_vector_5(const char* S, vector<int> icfl_list, int icfl_list_size, int_vector* father, int_vector* child);
+bit_vector* in_prefix_merge_bit_vector_6(const char* S, vector<int> icfl_list,vector<int> is_custom_suffix, int icfl_list_size, int_vector* father, int_vector* child);
 void in_prefix_merge_bit_vector_8(const char* S, vector<int> icfl_list, int icfl_list_size,int_vector*  father, int child,vector<int> is_custom_suffix,int father_lenght);

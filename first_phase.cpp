@@ -104,8 +104,8 @@ suffix_tree_node* creazione_albero_2(vector<int> icfl_list,const char* S,int len
                 if(temp) add_in_nodes_vector(last_added_nodes,temp);
             }
         }
-        for(int i=0;i<last_added_nodes->used;i++)
-            create_bit_vector_3_redundancy(S,icfl_list,icfl_Size,last_added_nodes->data[i]);
+        for(int i=0;i<last_added_nodes->used;i++);
+            //create_bit_vector_3_redundancy(S,icfl_list,icfl_Size,last_added_nodes->data[i]);
 
         free(last_added_nodes);
     }
@@ -215,11 +215,11 @@ suffix_tree_node* creazione_albero_3(vector<int> icfl_list,const char* S,int len
             }
         }
         for(int j=0;j<icfl_Size-1;j++){
-            cout<<"Controllo: "<<icfl_list[j]+icfl_list[j+1]-icfl_list[j]-1-i<<"\n";
+            //cout<<"Controllo: "<<icfl_list[j]+icfl_list[j+1]-icfl_list[j]-1-i<<"\n";
             if(i<icfl_list[j+1]-icfl_list[j]){
                 //La stringa si legge da destra verso sinistra
                 int starting_position= icfl_list[j+1]-icfl_list[j]-1-i;
-                cout<<"Inserisco: "<<icfl_list[j]+starting_position<<"\n";
+                //cout<<"Inserisco: "<<icfl_list[j]+starting_position<<"\n";
                 //temp = add_suffix_in_tree_4(root,S + icfl_list[j] +starting_position,icfl_list[j]+starting_position,i+1);
                 temp = add_suffix_in_tree_6(root,S,icfl_list,is_custom_vec,S + icfl_list[j] + starting_position,icfl_list[j]+starting_position,i+1);
                 if(temp){
@@ -247,6 +247,44 @@ suffix_tree_node* creazione_albero_3(vector<int> icfl_list,const char* S,int len
             //cout<<"Inserito.\n";
             //cout<<last_added_nodes->data[i]->suffix<<endl;
             //print_bit_vector(last_added_nodes->data[i]->bit_vec);
+        }
+
+        free(last_added_nodes);
+    }
+    return root;
+}
+
+suffix_tree_node* creazione_albero_4(vector<int> icfl_list,vector<int> custom_icfl_list,const char* S,int lenght_of_word,int max_size){
+    suffix_tree_node* root = build_suffix_tree_node(NULL,"\0",0);
+    int icfl_size=icfl_list.size();
+    int custom_icfl_size=custom_icfl_list.size();
+
+    vector<int> is_custom_vec = get_is_custom_vec(icfl_list,lenght_of_word);
+
+    for(int i=0;i<custom_icfl_size;i++){
+        nodes_vector* last_added_nodes=init_nodes_vector(custom_icfl_size);
+        suffix_tree_node* temp;
+
+        if(i< lenght_of_word - custom_icfl_list[custom_icfl_size-1]){
+            int starting_position= lenght_of_word - custom_icfl_list[custom_icfl_size-1]-1-i;
+            temp = add_suffix_in_tree_6(root,S,icfl_list,is_custom_vec,S + custom_icfl_list[custom_icfl_size-1] + starting_position,custom_icfl_list[custom_icfl_size-1]+starting_position,i+1);
+            if(temp){
+                add_in_nodes_vector(last_added_nodes,temp);
+            }
+        }
+        for(int j=0;j<custom_icfl_size-1;j++){
+            if(i<custom_icfl_list[j+1]-custom_icfl_list[j]){
+                int starting_position= custom_icfl_list[j+1]-custom_icfl_list[j]-1-i;
+                temp = add_suffix_in_tree_6(root,S,icfl_list,is_custom_vec,S + custom_icfl_list[j] + starting_position,custom_icfl_list[j]+starting_position,i+1);
+                if(temp){
+                    add_in_nodes_vector(last_added_nodes,temp);
+                }
+            }
+        }
+        for(int i=0;i<last_added_nodes->used;i++){
+            create_bit_vector_4_redundancy(S,icfl_list,is_custom_vec,icfl_size,last_added_nodes->data[i]);
+            //cout<<"common: ";
+            //print_int_vector(last_added_nodes->data[i]->common_chain_of_suffiexes);
         }
 
         free(last_added_nodes);

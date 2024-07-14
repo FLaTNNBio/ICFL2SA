@@ -25,6 +25,7 @@ void create_bit_vector(const char* S,vector<int> icfl_list, suffix_tree_node* ro
 void create_bit_vector_2(const char* S,vector<int> icfl_list, suffix_tree_node* root);
 void create_bit_vector_3(const char* S,vector<int> icfl_list,int icfl_list_size, suffix_tree_node* root);
 void create_bit_vector_3_redundancy(const char* S,vector<int> icfl_list,int icfl_list_size, suffix_tree_node* root);
+void create_bit_vector_4_redundancy(const char* S,vector<int> icfl_list,vector<int> is_custom_suffix,int icfl_list_size, suffix_tree_node* root);
 void create_bit_vector_4(const char* S,vector<int> icfl_list,int icfl_list_size, suffix_tree_node* root);
 void get_chains_3(suffix_tree_node* root,suffix_tree_node* node);
 

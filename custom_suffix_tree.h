@@ -63,6 +63,7 @@ suffix_tree_node* add_suffix_in_tree_2(suffix_tree_node* root,const char* suffix
 suffix_tree_node* add_suffix_in_tree_3(suffix_tree_node* root,const char* suffix,int indice,int suffix_len);
 suffix_tree_node* add_suffix_in_tree_4(suffix_tree_node* root,const char* suffix,int indice,int suffix_len);
 void add_in_order_int_vector(int_vector* vec,int x,int starting_position);
+void add_in_order_int_vector_2(int_vector* vec,int x,int starting_position);
 void add_suffix_in_tree_4_multithreading(suffix_tree_node* root,const char* suffix,int indice,int suffix_len);
 //Non fa i return(cosa bella)
 void add_suffix_in_tree_5(suffix_tree_node* root,const char* suffix,int indice,int suffix_len,suffix_tree_node** res);
