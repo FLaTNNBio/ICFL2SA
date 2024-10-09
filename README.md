@@ -9,8 +9,8 @@ Ad esempio i risultati ottenuti con Valgrid e le analisi ottenibili da chiunque 
 una volta inserita bisogna compilare ed eseguire. Non ho usato ottimizzazioni di compilazione ma se volete farlo, potete modificare il comando liberamente.
 
 ```
-g++ *.cpp -o main
-./main
+g++ -O3 -fopenmp -lpthread *.cpp -o main
+./main N_THREADS BOOL_SERIAL_OR_PARALLEL
 ```
 
 Per esegire il **testing** invece:
